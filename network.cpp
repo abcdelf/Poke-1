@@ -35,7 +35,7 @@ bool network::connecttoserver() {
         QObject::connect(client, &QTcpSocket::readyRead, this, &network::networkrecv);
         QObject::connect(client, &QTcpSocket::readyRead, this->lock, &QEventLoop::quit);
         QObject::connect(client, &QTcpSocket::disconnected, this, &network::error);
-        //QObject::connect(client, SIGNAL(QTcpSocket::error()), this, &network::error);
+        //QObject::connect(client,QTcpSocket::error(), this, &network::error);
         this->hide();
         return true;
     }
