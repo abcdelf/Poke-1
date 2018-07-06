@@ -20,7 +20,12 @@ int main(int argc, char *argv[])
     login.wait_login=&wait_login;
     login.show();
     wait_login.exec();
+    if (!login.islogined)
+    {
+        return 0;
+    }
     Poke w;
+    w.net=&net;
     w.show();
     return a.exec();
 }

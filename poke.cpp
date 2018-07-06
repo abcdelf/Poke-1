@@ -9,6 +9,19 @@ Poke::Poke(QWidget *parent) :
 }
 
 Poke::~Poke()
-{
+{    
     delete ui;
+}
+
+void Poke::on_submit_clicked()
+{
+    ui->textBrowser->setText(net->request(ui->lineEdit->text()));
+}
+
+void Poke::on_gochat_clicked()
+{
+    ChatScreen *chat=new ChatScreen;
+    chat->net=net;
+    chat->joinchat();
+    chat->show();
 }

@@ -10,6 +10,7 @@ loginscreen::loginscreen(QWidget *parent) :
 
 loginscreen::~loginscreen()
 {
+    wait_login->quit();
     delete ui;
 }
 
@@ -17,8 +18,9 @@ void loginscreen::on_go_clicked()
 {
     if (islogin)
     {
-        if (net->request("login "+ui->username->text()+" "+ui->password->text())=="success")
-        {
+        if (net->request("login "+ui->username->text()+" "+ui->password->text(),true)=="success")
+        {          
+            islogined=true;
             ui->emsg->clear();
             this->accept();
             wait_login->quit();
@@ -32,8 +34,9 @@ void loginscreen::on_go_clicked()
     }
     else
     {
-        if (net->request("reg "+ui->username->text()+" "+ui->password->text())=="success")
+        if (net->request("reg "+ui->username->text()+" "+ui->password->text(),true)=="success")
         {
+            islogined=true;
             ui->emsg->clear();
             this->accept();
             wait_login->quit();
@@ -61,4 +64,10 @@ void loginscreen::on_pushButton_clicked()
         islogin=true;
         ui->pushButton->setText("Register?");
     }
+}
+
+void loginscreen::closeEvent(QCloseEvent *event)
+{
+    event->accept();
+    wait_login->quit();
 }

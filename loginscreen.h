@@ -3,6 +3,7 @@
 #include "network.h"
 #include <QDialog>
 #include <QApplication>
+#include <QCloseEvent>
 namespace Ui {
 class loginscreen;
 }
@@ -16,12 +17,14 @@ public:
     ~loginscreen();
     bool islogin=true;
     network *net;
+    bool islogined=false;
     QEventLoop *wait_login;
 private slots:
     void on_go_clicked();
     void on_pushButton_clicked();
 
 private:
+    void closeEvent(QCloseEvent *event);
     Ui::loginscreen *ui;
 };
 
