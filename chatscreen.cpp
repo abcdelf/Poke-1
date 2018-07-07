@@ -25,8 +25,15 @@ void ChatScreen::joinchat(){
 void ChatScreen::on_pushButton_clicked()
 {
     ui->pushButton->hide();
-    net->request("chat_send "+ui->msgsend->document()->toPlainText());
-    ui->msgsend->clear();    
+    if (ui->msgsend->document()->toRawText().size()<50)
+    {
+        net->request("chat_send "+ui->msgsend->document()->toRawText());
+        ui->msgsend->clear();
+    }
+    else
+    {
+        QMessageBox::information(NULL,"Chat","Your Message is too long\nCan't send it",QMessageBox::Yes,QMessageBox::Yes);
+    }
 }
 void ChatScreen::update() {
     getdata->stop();
@@ -46,18 +53,25 @@ void ChatScreen::update() {
         if (minimap[0]==net->username.toStdString())
         {
             //std::cout<<minimap[0]<<"-"<<net->username.toStdString()<<std::endl;
-            addtmp=addtmp+"<div align='right'>"+QString::fromStdString(minimap[1])+"</div>"+"\n";
+            addtmp=addtmp+"<div align='right'>"+QString::fromStdString(minimap[1])+":"+QString::fromStdString(minimap[0])+"</div>"+"<br>";
         }
         else
         {
-            addtmp=addtmp+QString::fromStdString(minimap[0])+":"+QString::fromStdString(minimap[1])+"\n";
+            addtmp=addtmp+QString::fromStdString(minimap[0])+":"+QString::fromStdString(minimap[1])+"<br>";
         }
         //std::cout<<allnow<<"-"<<allprintfed<<"-"<<allprintfed<<"-"<<(QString::fromStdString(minimap[0])+":"+QString::fromStdString(minimap[1])+"\n").toStdString()<<std::endl;
         minimap.clear();
     }
     if (addtmp!="")
     {
-        ui->msgshow->setHtml(ui->msgshow->document()->toHtml()+addtmp);
+        if (ui->msgshow->document()->toPlainText()=="")
+        {
+            ui->msgshow->setHtml(addtmp);
+        }
+        else
+        {
+            ui->msgshow->setHtml(ui->msgshow->document()->toHtml()+addtmp);
+        }
         ui->msgshow->moveCursor(QTextCursor::End);
     }
     ui->pushButton->show();

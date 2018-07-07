@@ -18,8 +18,8 @@ network::~network()
     delete ui;
 }
 bool network::connecttoserver() {
-    ui->status->setText("onnecting...");
-    client->connectToHost("23.235.133.143", 8863);
+    ui->status->setText("connecting...");
+    client->connectToHost("o.starfiles.tk", 8863);
     QCoreApplication::processEvents();
     if (!client->waitForConnected(50000))
     {
