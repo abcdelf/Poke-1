@@ -6,38 +6,44 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>441</width>
-    <height>336</height>
+    <width>381</width>
+    <height>260</height>
    </rect>
   </property>
   <property name="maximumSize">
    <size>
-    <width>441</width>
-    <height>336</height>
+    <width>500</width>
+    <height>400</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Chat</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:white</string>
+   <string notr="true"/>
   </property>
   <widget class="QTextBrowser" name="msgshow">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>451</width>
-     <height>291</height>
+     <width>381</width>
+     <height>211</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 22px;</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="msgsend">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>290</y>
-     <width>361</width>
+     <y>210</y>
+     <width>301</width>
      <height>51</height>
     </rect>
    </property>
@@ -45,11 +51,14 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>290</y>
-     <width>91</width>
+     <x>300</x>
+     <y>210</y>
+     <width>81</width>
      <height>51</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:white</string>
    </property>
    <property name="text">
     <string>Send</string>

@@ -17,6 +17,7 @@ void ChatScreen::joinchat(){
     getdata=new QTimer;
     QString recdata=net->request("chat_num");
     allprintfed=recdata.toInt();
+    ui->msgshow->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     //std::cout<<allprintfed<<std::endl;
     QObject::connect(getdata, SIGNAL(timeout()), this, SLOT(update()));
     getdata->start(1000);
@@ -41,13 +42,22 @@ void ChatScreen::update() {
         SplitString(datamap[allnow-allprintfed],minimap,"#");
         //std::cout<<datamap[allnow-allprintfed]<<"%"<<std::endl;
         allprintfed++;
-        addtmp=addtmp+QString::fromStdString(minimap[0])+":"+QString::fromStdString(minimap[1])+"\n";
+        //std::cout<<minimap[0]<<"-"<<net->username.toStdString()<<std::endl;
+        if (minimap[0]==net->username.toStdString())
+        {
+            //std::cout<<minimap[0]<<"-"<<net->username.toStdString()<<std::endl;
+            addtmp=addtmp+"<div align='right'>"+QString::fromStdString(minimap[1])+"</div>"+"\n";
+        }
+        else
+        {
+            addtmp=addtmp+QString::fromStdString(minimap[0])+":"+QString::fromStdString(minimap[1])+"\n";
+        }
         //std::cout<<allnow<<"-"<<allprintfed<<"-"<<allprintfed<<"-"<<(QString::fromStdString(minimap[0])+":"+QString::fromStdString(minimap[1])+"\n").toStdString()<<std::endl;
         minimap.clear();
     }
     if (addtmp!="")
     {
-        ui->msgshow->setText(ui->msgshow->document()->toPlainText()+addtmp);
+        ui->msgshow->setHtml(ui->msgshow->document()->toHtml()+addtmp);
         ui->msgshow->moveCursor(QTextCursor::End);
     }
     ui->pushButton->show();

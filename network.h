@@ -22,6 +22,7 @@ public:
     QEventLoop *lock;
     QEventLoop *islock[99999];
     QString recdata[99999];
+    QString username;
     int allid=0,allrecid=0;
     QTimer *timeouttimer=new QTimer;
     QTimer *maytimeoutnotice=new QTimer;

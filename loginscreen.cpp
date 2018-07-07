@@ -22,6 +22,7 @@ void loginscreen::on_go_clicked()
         {          
             islogined=true;
             ui->emsg->clear();
+            net->username=ui->username->text();
             this->accept();
             wait_login->quit();
         }
@@ -38,6 +39,7 @@ void loginscreen::on_go_clicked()
         {
             islogined=true;
             ui->emsg->clear();
+            net->username=ui->username->text();
             this->accept();
             wait_login->quit();
         }
