@@ -1,5 +1,7 @@
 #include "network.h"
 #include "ui_network.h"
+#include "loginscreen.h"
+#include <iostream>
 network::network(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::network)
@@ -10,6 +12,7 @@ network::network(QWidget *parent) :
     //lock=new QEventLoop;
     //islock=new QEventLoop;
     ui->status->setText("Init!");
+    connect(this,SIGNAL(terminate_signal()),this,SLOT(deleteLater()));
 }
 
 network::~network()
@@ -18,8 +21,10 @@ network::~network()
     delete ui;
 }
 bool network::connecttoserver() {
+     allid=0;
+     allrecid=0;
     ui->status->setText("connecting...");
-    client->connectToHost("o.starfiles.tk", 8863);
+    client->connectToHost("poke.ostar.ooo", 8863);
     QCoreApplication::processEvents();
     if (!client->waitForConnected(50000))
     {
@@ -27,7 +32,9 @@ bool network::connecttoserver() {
         client->disconnect();
         QMessageBox::critical(NULL, "Error", "Falled to connect to server", QMessageBox::Yes, QMessageBox::Yes);
         this->hide();
-        std::terminate();
+        //main->quit();
+        exit=true;
+        emit this->terminate_signal();
         return false;
     }
     else
@@ -35,18 +42,21 @@ bool network::connecttoserver() {
         ui->status->setText("Success!");
         QObject::connect(client, &QTcpSocket::readyRead, this, &network::networkrecv);
         //QObject::connect(client, &QTcpSocket::readyRead, this->lock, &QEventLoop::it);
-        QObject::connect(client, &QTcpSocket::disconnected, this, &network::error);
-        QObject::connect(timeouttimer, SIGNAL(timeout()), this, SLOT(error()));
+        QObject::connect(client, &QTcpSocket::disconnected, this, &network::reconnect,Qt::QueuedConnection);
+        //QObject::connect(timeouttimer, SIGNAL(timeout()), this, SLOT(error()));
         #ifdef WIN32
         setWindowFlags(windowFlags() &~ Qt::WindowCloseButtonHint);
         #endif
-    #ifdef LINUX
+        #ifdef LINUX
         gtk_window_set_deletable(GTK_WINDOW (window), FALSE);
-    #endif
+        #endif
         //QObject::connect(client,QTcpSocket::error(), this, &network::error);
         //std::thread heart(heartpacket,this);
         //heart.detach();
-        this->hide();
+        //this->hide();
+        //isok=true;
+        FUHAO=this->request("FUHAO",true,true);
+        //std::cout<<FUHAO.toStdString()<<std::endl;
         return true;
     }
 }
@@ -62,6 +72,43 @@ void network::networkrecv() {
     islock[recid]->quit();
     //needwait=false;
 }
+void network::reconnect() {
+    isok=false;
+    this->show();
+    delete client;
+    client=new QTcpSocket;
+    ui->status->setText("reconnecting...");
+    if (!this->connecttoserver())
+    {
+        ui->status->setText("Falled!");
+        QMessageBox::critical(NULL, "Error", "Falled to connect to server", QMessageBox::Yes, QMessageBox::Yes);
+        this->hide();
+        main->quit();
+        exit=true;
+        //return false;
+    }
+    else
+    {
+        ui->status->setText("Success!");
+        if (this->request("token"+this->FUHAO+this->username+this->FUHAO+this->token,true,true)=="success")
+        {
+            isok=true;
+            QMessageBox::information(NULL, "Success", "Reconnected to server", QMessageBox::Yes, QMessageBox::Yes);
+        }
+        else
+        {            
+            QMessageBox::information(NULL, "Falled", "Reconnected to server but falled to login", QMessageBox::Yes, QMessageBox::Yes);
+            isok=true;
+            if (islogin)
+            {
+                loginscreen *relogin=new loginscreen;
+                relogin->net=this;
+                relogin->show();
+            }
+        }
+        this->hide();
+    }
+}
 void network::networksend(QString data)
 {
     ui->status->setText("Send...");
@@ -73,8 +120,12 @@ void network::networksend(QString data)
 //    this->timeouttimer->start(50000);
     this->maytimeoutnotice->start(3000);
 }
-QString network::request(QString data,bool isshow) {
-    if (data==""){return "";}
+QString network::request(QString data,bool isshow,bool directrequest) {
+    if (!directrequest)
+    {
+        if (!isok)return "";
+        if (data=="")return "";
+    }
     allid++;
     int id=allid;
     islock[id]=new QEventLoop;
@@ -106,6 +157,7 @@ void network::error() {
 //    maytimeoutnotice->stop();
     QMessageBox::information(NULL, "Network", "Server Disconnected", QMessageBox::Yes, QMessageBox::Yes);
     this->hide();
+    main->quit();
     std::terminate();
 }
 /*
@@ -143,4 +195,8 @@ void SplitString(const std::string& s, std::vector<std::string>& v, const std::s
 void network::timeoutnotice(){
     maytimeoutnotice->stop();
     this->show();
+}
+void network::closeEvent(QCloseEvent * event)
+{
+    event->ignore();
 }

@@ -1,6 +1,6 @@
 #include "loginscreen.h"
 #include "ui_loginscreen.h"
-
+#include <iostream>
 loginscreen::loginscreen(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::loginscreen)
@@ -10,7 +10,7 @@ loginscreen::loginscreen(QWidget *parent) :
 
 loginscreen::~loginscreen()
 {
-    wait_login->quit();
+    //wait_login->quit();
     delete ui;
 }
 
@@ -18,12 +18,16 @@ void loginscreen::on_go_clicked()
 {
     if (islogin)
     {
-        if (net->request("login "+ui->username->text()+" "+ui->password->text(),true)=="success")
+        QString tmp=net->request("login"+net->FUHAO+ui->username->text()+net->FUHAO+ui->password->text());
+        if (tmp!="Error")
         {          
             islogined=true;
             ui->emsg->clear();
             net->username=ui->username->text();
-            this->accept();
+            net->token=tmp;
+            net->islogin=true;
+
+            this->accept();            
             wait_login->quit();
         }
         else
@@ -35,11 +39,14 @@ void loginscreen::on_go_clicked()
     }
     else
     {
-        if (net->request("reg "+ui->username->text()+" "+ui->password->text(),true)=="success")
+        QString tmp=net->request("reg"+net->FUHAO+ui->username->text()+net->FUHAO+ui->password->text());
+        if (tmp!="Error")
         {
             islogined=true;
             ui->emsg->clear();
             net->username=ui->username->text();
+            net->token=tmp;
+            net->islogin=true;
             this->accept();
             wait_login->quit();
         }
@@ -71,5 +78,10 @@ void loginscreen::on_pushButton_clicked()
 void loginscreen::closeEvent(QCloseEvent *event)
 {
     event->accept();
+    wait_login->quit();
+}
+void loginscreen::terminate_loginscreen(){
+    this->hide();
+    //this->deleteLater();
     wait_login->quit();
 }

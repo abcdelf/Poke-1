@@ -19,12 +19,14 @@ public:
     network *net;
     bool islogined=false;
     QEventLoop *wait_login;
+public slots:
+    void terminate_loginscreen();
 private slots:
     void on_go_clicked();
     void on_pushButton_clicked();
+    void closeEvent(QCloseEvent *event);
 
 private:
-    void closeEvent(QCloseEvent *event);
     Ui::loginscreen *ui;
 };
 

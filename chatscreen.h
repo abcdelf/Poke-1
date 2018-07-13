@@ -5,6 +5,7 @@
 #include "network.h"
 #include <QCloseEvent>
 #include <iostream>
+#include "base64.h"
 namespace Ui {
 class ChatScreen;
 }
@@ -20,6 +21,8 @@ public:
     void joinchat();
     int allprintfed;
     QTimer *getdata;
+public slots:
+    void terminate_chatscreen();
 private slots:
     void update();
     void on_pushButton_clicked();
