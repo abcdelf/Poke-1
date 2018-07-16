@@ -1,15 +1,14 @@
-#include "poke.h"
-#include "network.h"
 #include <QApplication>
 #include <QObject>
 #include <iostream>
 #include <string>
 #include "loginscreen.h"
+#include "poke.h"
+#include "network.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     network net;
-    net.main=&a;
     net.show();
     if (!net.connecttoserver())
     {    

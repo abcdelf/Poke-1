@@ -25,3 +25,10 @@ void Poke::on_gochat_clicked()
     chat->joinchat();
     chat->show();
 }
+
+void Poke::on_gomedia_clicked()
+{
+    MediaPlayer *mediascreen=new MediaPlayer;
+    mediascreen->net=net;
+    mediascreen->show();
+}

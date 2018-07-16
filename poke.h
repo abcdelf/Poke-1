@@ -1,6 +1,6 @@
 #ifndef POKE_H
 #define POKE_H
-
+#include "mediaplayer.h"
 #include <QMainWindow>
 #include "network.h"
 #include "chatscreen.h"
@@ -20,6 +20,8 @@ private slots:
     void on_submit_clicked();
 
     void on_gochat_clicked();
+
+    void on_gomedia_clicked();
 
 private:
     Ui::Poke *ui;

@@ -5,7 +5,6 @@
 #include "network.h"
 #include <QCloseEvent>
 #include <iostream>
-#include "base64.h"
 namespace Ui {
 class ChatScreen;
 }
