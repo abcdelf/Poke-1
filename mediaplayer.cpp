@@ -1,6 +1,5 @@
 #include "mediaplayer.h"
 #include "ui_mediaplayer.h"
-#include <iostream>
 MediaPlayer::MediaPlayer(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MediaPlayer)
@@ -14,7 +13,6 @@ MediaPlayer::MediaPlayer(QWidget *parent) :
 
 MediaPlayer::~MediaPlayer()
 {
-    mediaPlayer->pause();
     delete ui;
 }
 
@@ -48,6 +46,7 @@ void MediaPlayer::on_listupdate_clicked()
         playlist->addMedia(QMediaContent(QUrl(songLink+QString::fromStdString(listmap[x]))));
     }
     mediaPlayer->setPlaylist(playlist);
+    this->on_play_clicked();
 }
 
 void MediaPlayer::on_volume_valueChanged(int value)
@@ -85,6 +84,7 @@ void MediaPlayer::mediachanged(){
         ui->musicinfo->setText("No Music Data Available");
     }
     ui->playside->setRange(0,mediaPlayer->duration());
+    ui->TIME->setText(QString::number((double)mediaPlayer->position()/60000.00,10,2)+"/"+QString::number((double)mediaPlayer->duration()/60000.00,10,2)+" min.");
 }
 
 void MediaPlayer::on_previous_clicked()

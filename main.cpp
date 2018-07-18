@@ -1,7 +1,5 @@
 #include <QApplication>
 #include <QObject>
-#include <iostream>
-#include <string>
 #include "loginscreen.h"
 #include "poke.h"
 #include "network.h"

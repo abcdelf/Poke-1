@@ -24,8 +24,8 @@ public:
     bool isok=true;
     QString FUHAO;
     QEventLoop *lock;
-    QEventLoop *islock[99999];
-    QString recdata[99999];
+    QEventLoop *islock[9999];
+    QString recdata[9999];
     QString username;
     QString token;
     bool  islogin=false;
