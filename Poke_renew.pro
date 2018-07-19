@@ -21,6 +21,33 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-SOURCES += *.cpp
-HEADERS += *.h
-FORMS += *.ui
+SOURCES += \
+    helpchoose.cpp \
+    needhelp.cpp \
+    base64.cpp \
+    chatscreen.cpp \
+    loginscreen.cpp \
+    mediaplayer.cpp \
+    network.cpp \
+    poke.cpp \
+    helpothers.cpp
+HEADERS += \
+    helpchoose.h \
+    needhelp.h \
+    base64.h \
+    chatscreen.h \
+    loginscreen.h \
+    mediaplayer.h \
+    network.h \
+    poke.h \
+    helpothers.h
+FORMS += \
+    helpchoose.ui \
+    needhelp.ui \
+    base64.ui \
+    chatscreen.ui \
+    loginscreen.ui \
+    mediaplayer.ui \
+    network.ui \
+    poke.ui \
+    helpothers.ui

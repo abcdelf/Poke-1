@@ -32,3 +32,10 @@ void Poke::on_gomedia_clicked()
     mediascreen->net=net;
     mediascreen->show();
 }
+
+void Poke::on_help_clicked()
+{
+    helpchoose *help=new helpchoose;
+    help->net=net;
+    help->show();
+}

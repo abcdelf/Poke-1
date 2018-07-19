@@ -3,6 +3,7 @@
 #include "mediaplayer.h"
 #include <QMainWindow>
 #include "network.h"
+#include "helpchoose.h"
 #include "chatscreen.h"
 namespace Ui {
 class Poke;
@@ -22,6 +23,8 @@ private slots:
     void on_gochat_clicked();
 
     void on_gomedia_clicked();
+
+    void on_help_clicked();
 
 private:
     Ui::Poke *ui;

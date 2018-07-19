@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>helpchoose</class>
+ <widget class="QDialog" name="helpchoose">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>204</width>
+    <height>93</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Help</string>
+  </property>
+  <widget class="QPushButton" name="helpother">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>75</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Help Other</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="needhelp">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>10</y>
+     <width>75</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Need Help</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
