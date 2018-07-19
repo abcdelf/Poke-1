@@ -1,4 +1,4 @@
-/*Ver.0.1*/
+/*Ver.0.2*/
 
 #include <QApplication>
 #include <QObject>
