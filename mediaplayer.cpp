@@ -84,7 +84,11 @@ void MediaPlayer::mediachanged(){
         ui->musicinfo->setText("No Music Data Available");
     }
     ui->playside->setRange(0,mediaPlayer->duration());
-    ui->TIME->setText(QString::number((double)mediaPlayer->position()/60000.00,10,2)+"/"+QString::number((double)mediaPlayer->duration()/60000.00,10,2)+" min.");
+    int ma=QString::number(mediaPlayer->duration()/60000,10,1).toInt();
+    int sa=(mediaPlayer->duration()-(ma*60000))/1000;
+    int m=QString::number(mediaPlayer->position()/60000,10,1).toInt();
+    int s=(mediaPlayer->position()-(m*60000))/1000;
+    ui->TIME->setText(QString::number(m)+":"+QString::number(s)+"/"+QString::number(ma)+":"+QString::number(sa));
 }
 
 void MediaPlayer::on_previous_clicked()
@@ -94,8 +98,16 @@ void MediaPlayer::on_previous_clicked()
 }
 void MediaPlayer::playedtimechange() {
     ui->playside->setValue(mediaPlayer->position());
-    ui->TIME->setText(QString::number((double)mediaPlayer->position()/60000.00,10,2)+"/"+QString::number((double)mediaPlayer->duration()/60000.00,10,2)+" min.");
-
+    int ma=QString::number(mediaPlayer->duration()/60000,10,1).toInt();
+    int sa=(mediaPlayer->duration()-(ma*60000))/1000;
+    ma=sa/60;
+    sa=sa-(ma*60);
+    int m=QString::number(mediaPlayer->position()/60000,10,1).toInt();
+    int s=(mediaPlayer->position()-(m*60000))/1000;
+    m=s/60;
+    s=s-(m*60);
+    //ui->musicinfo->setText(QString::number(mediaPlayer->position()));
+    ui->TIME->setText(QString::number(m)+":"+QString::number(s)+"/"+QString::number(ma)+":"+QString::number(sa));
 }
 
 void MediaPlayer::on_playside_sliderReleased()

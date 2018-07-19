@@ -1,3 +1,5 @@
+/*Ver.0.1*/
+
 #include <QApplication>
 #include <QObject>
 #include "loginscreen.h"
