@@ -21,6 +21,7 @@ public:
 private slots:
     void requestloop();
 private:
+    bool requested=false;
     QTimer waitloop;
     Ui::needhelp *ui;
 };

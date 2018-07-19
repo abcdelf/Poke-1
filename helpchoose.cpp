@@ -20,6 +20,7 @@ void helpchoose::on_needhelp_clicked()
     help->init();
     help->show();
     this->hide();
+    this->deleteLater();
 }
 
 void helpchoose::on_helpother_clicked()
@@ -27,4 +28,6 @@ void helpchoose::on_helpother_clicked()
     helpothers *help=new helpothers;
     help->net=net;
     help->show();
+    this->hide();
+    this->deleteLater();
 }

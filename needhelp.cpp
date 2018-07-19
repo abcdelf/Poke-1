@@ -16,15 +16,30 @@ needhelp::~needhelp()
 
 void needhelp::init() {
     id=net->request("needhelpadndgetid");
-    this->waitloop.start(1000);
+    this->waitloop.start(2000);
     ui->id->setText(id);
 }
 void needhelp::requestloop() {
-    if (net->request("needhelpcheckothershelpyou")=="requested")
+    if (!requested)
     {
-        waitloop.stop();
-        ui->id->hide();
-        ui->idtips->hide();
-        ui->status->setText("Requested");
+        if (net->request("needhelpcheckothershelpyou")=="requested")
+        {
+            waitloop.stop();
+            ui->id->hide();
+            requested=true;
+            ui->idtips->hide();
+            ui->status->setText("Requested");
+            waitloop.start(2000);
+        }
+    }
+    else
+    {
+        QString command=net->request("helpcommandchannelrecv");
+        if (command!="wait")
+        {
+            waitloop.stop();
+            ui->status->setText(command);
+            waitloop.start(2000);
+        }
     }
 }
