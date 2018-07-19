@@ -24,5 +24,7 @@ void helpchoose::on_needhelp_clicked()
 
 void helpchoose::on_helpother_clicked()
 {
-
+    helpothers *help=new helpothers;
+    help->net=net;
+    help->show();
 }

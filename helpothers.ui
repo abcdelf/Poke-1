@@ -1,7 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>helpothers</class>
  <widget class="QWidget" name="helpothers">
   <property name="geometry">
@@ -13,9 +11,39 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Help</string>
   </property>
+  <widget class="QPlainTextEdit" name="id">
+   <property name="geometry">
+    <rect>
+     <x>-30</x>
+     <y>20</y>
+     <width>231</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 36px;font-weight:bold;margin-left: auto; margin-right: auto;</string>
+   </property>
+   <property name="plainText">
+    <string>
+</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="gohelp">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>20</y>
+     <width>75</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Help!</string>
+   </property>
+  </widget>
  </widget>
- <pixmapfunction/>
+ <resources/>
  <connections/>
 </ui>

@@ -22,6 +22,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    main.cpp \
     helpchoose.cpp \
     needhelp.cpp \
     base64.cpp \
@@ -44,7 +45,6 @@ HEADERS += \
 FORMS += \
     helpchoose.ui \
     needhelp.ui \
-    base64.ui \
     chatscreen.ui \
     loginscreen.ui \
     mediaplayer.ui \

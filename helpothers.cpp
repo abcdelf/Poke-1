@@ -12,3 +12,12 @@ helpothers::~helpothers()
 {
     delete ui;
 }
+
+void helpothers::on_gohelp_clicked()
+{
+    if (net->request("helpothersrequestid"+net->FUHAO+ui->id->document()->toPlainText())=="ok")
+    {
+        ui->gohelp->hide();
+        ui->id->setReadOnly(true);
+    }
+}

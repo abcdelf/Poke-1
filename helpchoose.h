@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "needhelp.h"
+#include "helpothers.h"
 #include "network.h"
 namespace Ui {
 class helpchoose;
