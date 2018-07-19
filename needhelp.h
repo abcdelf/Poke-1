@@ -2,6 +2,7 @@
 #define NEEDHELP_H
 
 #include <QWidget>
+#include <QProcess>
 #include <QTimer>
 #include "network.h"
 namespace Ui {

