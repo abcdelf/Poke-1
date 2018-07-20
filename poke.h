@@ -5,6 +5,7 @@
 #include "network.h"
 #include "helpchoose.h"
 #include "chatscreen.h"
+#include "commandline.h"
 namespace Ui {
 class Poke;
 }
@@ -25,6 +26,8 @@ private slots:
     void on_gomedia_clicked();
 
     void on_help_clicked();
+
+    void on_commandLine_clicked();
 
 private:
     Ui::Poke *ui;

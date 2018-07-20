@@ -31,7 +31,8 @@ SOURCES += \
     mediaplayer.cpp \
     network.cpp \
     poke.cpp \
-    helpothers.cpp
+    helpothers.cpp \
+    commandline.cpp
 HEADERS += \
     helpchoose.h \
     needhelp.h \
@@ -41,7 +42,8 @@ HEADERS += \
     mediaplayer.h \
     network.h \
     poke.h \
-    helpothers.h
+    helpothers.h \
+    commandline.h
 FORMS += \
     helpchoose.ui \
     needhelp.ui \
@@ -50,4 +52,5 @@ FORMS += \
     mediaplayer.ui \
     network.ui \
     poke.ui \
-    helpothers.ui
+    helpothers.ui \
+    commandline.ui

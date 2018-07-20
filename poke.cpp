@@ -39,3 +39,9 @@ void Poke::on_help_clicked()
     help->net=net;
     help->show();
 }
+
+void Poke::on_commandLine_clicked()
+{
+    CommandLine *command=new CommandLine(NULL,false,false);
+    command->show();
+}
