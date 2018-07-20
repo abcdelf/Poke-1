@@ -20,34 +20,16 @@ void needhelp::init() {
     ui->id->setText(id);
 }
 void needhelp::requestloop() {
-    if (!requested)
+    if (net->request("needhelpcheckothershelpyou")=="requested")
     {
-        if (net->request("needhelpcheckothershelpyou")=="requested")
-        {
-            waitloop.stop();
-            ui->id->hide();
-            requested=true;
-            ui->idtips->hide();
-            ui->status->setText("Requested");
-            waitloop.start(2000);
-        }
-    }
-    else
-    {
-        QString command=net->request("helpcommandchannelrecv");
-        if (command!="wait")
-        {
-            waitloop.stop();
-            ui->status->setText(command);
-            bool ret;
-            QProcess process;
-            process.setProgram("cmd");
-            process.setArguments(QStringList()<<"/c"<<command);
-            process.start(QIODevice::ReadWrite);
-            ret = process.waitForStarted();
-            process.waitForFinished();
-            net->request(""+net->FUHAO+process.readAllStandardOutput());
-            waitloop.start(2000);
-        }
-    }
+        waitloop.stop();
+        ui->id->hide();
+        ui->idtips->hide();
+        ui->status->setText("Loading...");
+        CommandLine *command=new CommandLine(NULL,false,true);
+        command->net=net;
+        command->show();
+        this->hide();
+        this->deleteLater();
+     }
 }

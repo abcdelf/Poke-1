@@ -3,6 +3,10 @@
 
 #include <QWidget>
 #include <QProcess>
+#include <QArrayData>
+#include <QCloseEvent>
+#include <QTimer>
+#include "network.h"
 namespace Ui {
 class CommandLine;
 }
@@ -14,22 +18,26 @@ class CommandLine : public QWidget
 public:
     explicit CommandLine(QWidget *parent = 0,bool isremote=false,bool isclient=false);
     ~CommandLine();
-
+    network *net;
 private slots:
     void started();
     void finished();
     void readyread();
     void sendtoprocess();
-//    void net_recv_started();
-//    void net_recv_finished();
-//    void net_recv_readyread();
-//    void net_send_started();
-//    void net_send_finished();
-//    void net_send_readyready();
+    void net_send_started();
+    void net_send_finished();
+    void netSendReadyready();
+    void net_recvtoprocess();
+    void net_recv_started();
+    void net_recv_finished();
+    void net_recv_readyread();
+    void net_sendtoprocess();
 private:
+    QTimer *requestnetrecv;
     bool isremote;
     Ui::CommandLine *ui;
     QProcess *process;
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // COMMANDLINE_H

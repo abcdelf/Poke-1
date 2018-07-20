@@ -5,6 +5,7 @@
 #include <QProcess>
 #include <QTimer>
 #include "network.h"
+#include "commandline.h"
 namespace Ui {
 class needhelp;
 }
@@ -22,7 +23,6 @@ public:
 private slots:
     void requestloop();
 private:
-    bool requested=false;
     QTimer waitloop;
     Ui::needhelp *ui;
 };

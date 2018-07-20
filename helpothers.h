@@ -1,6 +1,6 @@
 #ifndef HELPOTHERS_H
 #define HELPOTHERS_H
-
+#include "commandline.h"
 #include <QWidget>
 #include <network.h>
 namespace Ui {
@@ -17,8 +17,6 @@ public:
     network *net;
 private slots:
     void on_gohelp_clicked();
-
-    void on_send_clicked();
 
 private:
     Ui::helpothers *ui;
