@@ -43,5 +43,6 @@ void Poke::on_help_clicked()
 void Poke::on_commandLine_clicked()
 {
     CommandLine *command=new CommandLine(NULL,false,false);
+    command->init();
     command->show();
 }

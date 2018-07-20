@@ -1,6 +1,6 @@
 #include "commandline.h"
 #include "ui_commandline.h"
-
+#include <iostream>
 CommandLine::CommandLine(QWidget *parent,bool isremote,bool isclient) :
     QWidget(parent),
     ui(new Ui::CommandLine)
@@ -47,6 +47,10 @@ CommandLine::CommandLine(QWidget *parent,bool isremote,bool isclient) :
     }
 }
 void CommandLine::closeEvent(QCloseEvent *event){
+  if (!isremote)
+  {
+    process->close();
+  }
   event->accept();
   this->deleteLater();
 }
@@ -94,13 +98,25 @@ void CommandLine::netSendReadyready() {
     net->request("needhelpsend"+net->FUHAO+data.toLocal8Bit().toBase64());
 }
 void CommandLine::net_recvtoprocess() {
-    QString recv=net->request("needhelprecv");
-    if (recv!=net->FUHAO)
+    requestnetrecv->stop();
+    QString recdata=net->request("needhelprecv"+net->FUHAO+QString::number(allprintfed));
+    if (recdata==net->FUHAO)
     {
-        QByteArray send;
-        send.fromBase64(recv.toLocal8Bit());
-        process->write(send.toStdString().c_str());
+        return;
     }
+    std::vector<std::string> datamap;
+    SplitString(recdata.toStdString(),datamap,"$");
+    if (datamap.size()>0)
+    {
+        int allnow=atoi(datamap[0].c_str());
+        while(allprintfed<allnow)
+        {
+            process->write(QByteArray::fromBase64(QString::fromStdString(datamap[allnow-allprintfed]).toLocal8Bit()));
+            process->write("\r\n");
+            allprintfed++;
+        }
+    }
+    requestnetrecv->start(2000);
 }
 void CommandLine::net_recv_started() {
     QString recv=net->request("helpothersisstarted");
@@ -110,18 +126,36 @@ void CommandLine::net_recv_started() {
         requestnetrecv->disconnect();
         connect(requestnetrecv,SIGNAL(timeout()),this,SLOT(net_recv_readyread()));
         connect(requestnetrecv,SIGNAL(timeout()),this,SLOT(net_recv_finished()));
+        ui->command->show();
+        ui->send->show();
         requestnetrecv->start(2000);
     }
 }
 void CommandLine::net_recv_readyread() {
-    QString recv=net->request("helpothersreadyread");
-    if (recv!=net->FUHAO)
+    requestnetrecv->stop();
+    QString recdata=net->request("helpothersrecv"+net->FUHAO+QString::number(allprintfed)),addtmp;
+    if (recdata==net->FUHAO)
     {
-        QByteArray data;
-        data.fromBase64(recv.toLocal8Bit());
-        ui->show->setText(ui->show->document()->toPlainText()+QString::fromStdString(data.toStdString()));
-        ui->show->moveCursor(QTextCursor::End);
+        return;
     }
+    std::vector<std::string> datamap;
+    SplitString(recdata.toStdString(),datamap,"$");
+    if (datamap.size()>0)
+    {
+        int allnow=atoi(datamap[0].c_str());
+        while(allprintfed<allnow)
+        {
+            addtmp=addtmp+QString::fromStdString(QByteArray::fromBase64(QString::fromStdString(datamap[allnow-allprintfed]).toLocal8Bit()).toStdString());
+            allprintfed++;
+        }
+        if (addtmp!="")
+        {
+            ui->show->setText(ui->show->document()->toPlainText()+QString::fromStdString(addtmp.toStdString()));
+            ui->show->moveCursor(QTextCursor::End);
+        }
+    }
+    requestnetrecv->start(2000);
+
 }
 void CommandLine::net_sendtoprocess() {
     QString send=ui->command->text();
@@ -129,7 +163,7 @@ void CommandLine::net_sendtoprocess() {
     ui->command->clear();
 }
 void CommandLine::net_recv_finished() {
-    QString recv=net->request("helpothersreadyread");
+    QString recv=net->request("helpothersisfinished");
     if (recv!=net->FUHAO)
     {
         ui->show->append("Program Exited");

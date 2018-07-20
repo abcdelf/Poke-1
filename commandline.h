@@ -34,6 +34,7 @@ private slots:
     void net_recv_readyread();
     void net_sendtoprocess();
 private:
+    int allprintfed=0;
     QTimer *requestnetrecv;
     bool isremote;
     Ui::CommandLine *ui;
