@@ -19,6 +19,7 @@ public:
     explicit CommandLine(QWidget *parent = 0,bool isremote=false,bool isclient=false);
     ~CommandLine();
     network *net;
+    void init();
 private slots:
     void started();
     void finished();

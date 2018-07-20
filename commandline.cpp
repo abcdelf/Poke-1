@@ -20,19 +20,19 @@ CommandLine::CommandLine(QWidget *parent,bool isremote,bool isclient) :
     ui->send->hide();
     this->isremote=isremote;
     if (isremote) {
-        requestnetrecv=new QTimer;
+        requestnetrecv=new QTimer(this);
         connect(requestnetrecv,SIGNAL(timeout()),this,SLOT(net_recv_started()));
         connect(this->ui->send,SIGNAL(clicked()),this,SLOT(net_sendtoprocess()));
         requestnetrecv->start(2000);
     }
     else
     {
-        process=new QProcess;
+        process=new QProcess(this);
         if (isclient) {
             requestnetrecv=new QTimer;
             connect(process,SIGNAL(started()),this,SLOT(net_send_started()));
-            connect(process,SIGNAL(readyRead()),this,SLOT(net_send_finished()));
-            connect(process,SIGNAL(finished(int)),this,SLOT(netSendReadyready()));
+            connect(process,SIGNAL(readyRead()),this,SLOT(netSendReadyready()));
+            connect(process,SIGNAL(finished(int)),this,SLOT(net_send_finished()));
             connect(requestnetrecv,SIGNAL(timeout()),this,SLOT(net_recvtoprocess()));
         }
         else
@@ -43,18 +43,20 @@ CommandLine::CommandLine(QWidget *parent,bool isremote,bool isclient) :
             connect(process,SIGNAL(finished(int)),this,SLOT(finished()));
             connect(this->ui->send,SIGNAL(clicked()),this,SLOT(sendtoprocess()));
         }
-        process->setProgram("cmd");
-        process->start(QIODevice::ReadWrite);
+
     }
 }
 void CommandLine::closeEvent(QCloseEvent *event){
   event->accept();
-  process->close();
   this->deleteLater();
 }
 CommandLine::~CommandLine()
 {
     delete ui;
+}
+void CommandLine::init() {
+    process->setProgram("cmd");
+    process->start(QIODevice::ReadWrite);
 }
 void CommandLine::started(){
     ui->command->setReadOnly(false);
@@ -81,6 +83,7 @@ void CommandLine::net_send_started(){
     requestnetrecv->start(2000);
 }
 void CommandLine::net_send_finished() {
+    requestnetrecv->stop();
     net->request("needhelpfinished");
     ui->show->append("Program Exited");
 }

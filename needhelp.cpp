@@ -28,6 +28,7 @@ void needhelp::requestloop() {
         ui->status->setText("Loading...");
         CommandLine *command=new CommandLine(NULL,false,true);
         command->net=net;
+        command->init();
         command->show();
         this->hide();
         this->deleteLater();
